@@ -5,11 +5,17 @@
 #ifndef OPERATIONALRESEARCHAPP_INGREDIENT_H
 #define OPERATIONALRESEARCHAPP_INGREDIENT_H
 
-namespace Ingredients {
-    class Ingredient {
-    public:
-        Ingredient();
-    };
+#include <cstdint>
+#include <string>
+
+class Ingredient {
+public:
+    Ingredient();
+    ~Ingredient();
+    std::string name;
+private:
+    static uint16_t m_ingredientsNumber;
+    uint8_t m_expiryDate;
 }
 
 #endif //OPERATIONALRESEARCHAPP_INGREDIENT_H

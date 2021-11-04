@@ -3,4 +3,4 @@ add_executable(
         main.cpp
 )
 
-target_link_libraries(App PRIVATE Ingredients)
+target_link_libraries(App PRIVATE Ingredients Recipes)
