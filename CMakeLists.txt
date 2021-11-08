@@ -7,6 +7,3 @@ add_subdirectory(recipes)
 add_subdirectory(app)
 
 set(CMAKE_CXX_STANDARD 20)
-
-
-
