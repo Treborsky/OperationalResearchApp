@@ -1,0 +1,10 @@
+sandwich:
+  ingredients:
+    - bread:
+        - 50
+    - ham:
+        - 10
+    - butter:
+        - 8
+  time:
+    - 5

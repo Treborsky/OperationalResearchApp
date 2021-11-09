@@ -1,0 +1,12 @@
+//
+// Created by Robert Koziarski on 04.11.2021.
+//
+
+#ifndef OPERATIONALRESEARCHAPP_RECIPE_H
+#define OPERATIONALRESEARCHAPP_RECIPE_H
+
+struct Recipe {
+
+};
+
+#endif //OPERATIONALRESEARCHAPP_RECIPE_H
