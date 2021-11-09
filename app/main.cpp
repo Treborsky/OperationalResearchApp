@@ -1,6 +1,3 @@
-#include <ingredients/ingredient.h>
-#include <recipes/recipe.h>
-
 #include <iostream>
 
 int main() {

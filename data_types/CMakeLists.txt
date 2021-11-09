@@ -1,17 +1,12 @@
 add_library(
-        Ingredients
+        DataTypes
         src/ingredients/ingredient.cpp
         src/ingredients/ingredient.h
-)
-
-target_include_directories(Ingredients PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(Ingredients PRIVATE Utility)
-
-add_library(
-        Recipes
         src/recipes/recipe.cpp
         src/recipes/recipe.h
+        src/supplies/supply.cpp
+        src/supplies/supply.h
 )
 
-target_include_directories(Recipes PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(Recipes PRIVATE Ingredients)
+target_include_directories(DataTypes PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_link_libraries(DataTypes PUBLIC Utility)
