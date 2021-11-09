@@ -6,6 +6,8 @@ add_library(
         src/recipes/recipe.h
         src/supplies/supply.cpp
         src/supplies/supply.h
+        src/app_data/app_data.cpp
+        src/app_data/app_data.h
 )
 
 target_include_directories(DataTypes PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)

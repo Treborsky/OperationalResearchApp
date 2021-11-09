@@ -8,10 +8,10 @@
 #include <utility/utility.h>
 
 struct Ingredient {
-    explicit Ingredient(app::ushort expDate=10, app::string_v newName="unnamed")
+    explicit Ingredient(std::size_t expDate=10, std::string_view newName="unnamed")
         : expirationDate(expDate), name(newName) {}
-    app::ushort expirationDate;
-    app::string name;
+    std::size_t expirationDate;
+    std::string name;
 };
 
 #endif //OPERATIONALRESEARCHAPP_INGREDIENT_H

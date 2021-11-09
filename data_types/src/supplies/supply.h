@@ -7,10 +7,10 @@
 
 #include <ingredients/ingredient.h>
 
-struct Supply : Ingredient {
-    explicit Supply(app::ushort supplyPrice, app::ushort expDate=10, app::string_v newName="unnamed")
+struct Supply : public Ingredient {
+    explicit Supply(std::size_t supplyPrice, std::size_t expDate=10, std::string_view newName="unnamed")
         : price(supplyPrice), Ingredient(expDate, newName) {}
-    app::ushort price;
+    std::size_t price;
 };
 
 #endif //OPERATIONALRESEARCHAPP_SUPPLY_H

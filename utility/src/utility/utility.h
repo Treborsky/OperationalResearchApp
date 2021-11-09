@@ -11,14 +11,14 @@
 #include <string_view>
 #include <set>
 
-class Ingredient;
+struct Supply;
+struct Recipe;
+struct Ingredient;
+struct AppData;
 
 namespace app {
-    typedef uint16_t ushort;
-    typedef std::vector<uint16_t> vector_ushort;
-    typedef std::string string;
-    typedef std::string_view string_v;
-    typedef std::vector<Ingredient> vector_ingredient;
+    AppData& loadData(std::string& pathString, AppData& appData);
+    std::vector<std::string> strSplit(std::string str, char delim);
 }
 
 #endif //OPERATIONALRESEARCHAPP_UTILITY_H

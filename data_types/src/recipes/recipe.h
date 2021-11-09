@@ -8,10 +8,10 @@
 #include <ingredients/ingredient.h>
 
 struct Recipe {
-    explicit Recipe(app::ushort prepTime, app::vector_ingredient &ingredients)
+    explicit Recipe(std::size_t prepTime, std::vector<Ingredient> &ingredients)
         : ingredientList(ingredients), preparationTime(prepTime) {}
-    app::ushort preparationTime;
-    app::vector_ingredient ingredientList;
+    std::size_t preparationTime;
+    std::vector<Ingredient> ingredientList;
 };
 
 #endif //OPERATIONALRESEARCHAPP_RECIPE_H
