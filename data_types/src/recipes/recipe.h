@@ -14,4 +14,5 @@ struct Recipe {
     std::vector<Ingredient> ingredientList;
 };
 
+
 #endif //OPERATIONALRESEARCHAPP_RECIPE_H

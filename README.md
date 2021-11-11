@@ -9,3 +9,7 @@ An application that calculates the optimal purchases and cooking in order to min
 ### Presentation
  - to be decided
  - TUI - terminal/cmd
+
+## Notes from labs
+### Lab 6
+ - a

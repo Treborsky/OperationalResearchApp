@@ -3,4 +3,4 @@ add_executable(
         main.cpp
 )
 
-target_link_libraries(App PRIVATE DataTypes Utility Clock)
+target_link_libraries(App PRIVATE DataTypes Utility)

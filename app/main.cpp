@@ -5,8 +5,11 @@ int main() {
     std::cout << "Hello program" << std::endl;
     // 1 initialize the data -> recipes, data_types, etc.
     AppData data;
-    std::string filePath = "./sandwich.csv";
-    app::loadData(filePath, data);
+    std::string filePath = "../../sample_data/sandwich.csv";    // using relative for development TODO: put it into cli
+    data.loadData(filePath);
+    std::cout << "Data loaded without error, printing loaded data: " << std::endl;
+    std::cout << data;
+
     // 2 await the task
     // 3 if task is exit
     // 4 exit the app

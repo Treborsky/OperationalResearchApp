@@ -8,9 +8,10 @@
 #include <ingredients/ingredient.h>
 
 struct Supply : public Ingredient {
-    explicit Supply(std::size_t supplyPrice, std::size_t expDate=10, std::string_view newName="unnamed")
-        : price(supplyPrice), Ingredient(expDate, newName) {}
+    explicit Supply(std::size_t supplyPrice, std::size_t expDate=10, std::string newName="unnamed")
+        : price(supplyPrice), Ingredient(expDate, std::move(newName)) {}
     std::size_t price;
 };
+
 
 #endif //OPERATIONALRESEARCHAPP_SUPPLY_H

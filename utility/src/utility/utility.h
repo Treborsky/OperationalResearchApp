@@ -8,16 +8,13 @@
 #include <cstdint>
 #include <vector>
 #include <string>
-#include <string_view>
+#include <iostream>
+#include <sstream>
+#include <ostream>
+#include <fstream>
 #include <set>
 
-struct Supply;
-struct Recipe;
-struct Ingredient;
-struct AppData;
-
 namespace app {
-    AppData& loadData(std::string& pathString, AppData& appData);
     std::vector<std::string> strSplit(std::string str, char delim);
 }
 
