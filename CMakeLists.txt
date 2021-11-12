@@ -1,12 +1,10 @@
 cmake_minimum_required(VERSION 3.20)
 project(OperationalResearchApp)
-
-# adding subdirectories that contain libraries
-add_subdirectory(ingredients)
-add_subdirectory(recipes)
-add_subdirectory(app)
-
 set(CMAKE_CXX_STANDARD 20)
 
+# adding subdirectories that contain libraries
+add_subdirectory(utility)
+add_subdirectory(data_types)
 
-
+# adding subdirectory with the main function
+add_subdirectory(app)
