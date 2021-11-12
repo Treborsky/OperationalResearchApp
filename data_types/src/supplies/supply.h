@@ -8,9 +8,9 @@
 #include <ingredients/ingredient.h>
 
 struct Supply : public Ingredient {
-    explicit Supply(std::size_t supplyPrice, std::size_t expDate=10, std::string newName="unnamed")
+    explicit Supply(int supplyPrice, int expDate=10, std::string newName="unnamed")
         : price(supplyPrice), Ingredient(expDate, std::move(newName)) {}
-    std::size_t price;
+    int price;
 };
 
 

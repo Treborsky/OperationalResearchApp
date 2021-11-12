@@ -8,9 +8,9 @@
 #include <utility/utility.h>
 
 struct Ingredient {
-    explicit Ingredient(std::size_t expDate=10, std::string newName="unnamed")
+    explicit Ingredient(int expDate=10, std::string newName="unnamed")
         : expirationDate(expDate), name(std::move(newName)) {}
-    std::size_t expirationDate;
+    int expirationDate;
     std::string name;
 
 };

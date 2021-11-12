@@ -8,9 +8,9 @@
 #include <ingredients/ingredient.h>
 
 struct Recipe {
-    explicit Recipe(std::size_t prepTime, std::vector<Ingredient> &ingredients)
+    explicit Recipe(int prepTime, std::vector<Ingredient> &ingredients)
         : ingredientList(ingredients), preparationTime(prepTime) {}
-    std::size_t preparationTime;
+    int preparationTime;
     std::vector<Ingredient> ingredientList;
 };
 
