@@ -10,7 +10,7 @@
 struct Solution {
     Solution(AppData& data, std::vector<bool>& selection);
 
-    double costFunction(app::CostFunctionParams& params) const;
+    double costFunction(CostFunctionParams& params) const;
 private:
     double calculateMshop() const;
     double calculateMloss() const;
@@ -19,7 +19,5 @@ private:
     AppData appData;
     std::vector<bool> selectedRecipes;
 };
-
-// TODO:
 
 #endif //OPERATIONALRESEARCHAPP_MODEL_H

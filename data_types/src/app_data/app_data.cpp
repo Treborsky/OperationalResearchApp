@@ -30,19 +30,17 @@ void AppData::parseLine(std::string& line) {
      * i - list of ingredients that we currently store
      * s - list of available items in the store
      * */
-    std::vector<std::string> tokenList = app::strSplit(line, ',');
+    std::vector<std::string> tokenList = strSplit(line, ',');
 
     if (tokenList[0] == "r") { // parse the list of ingredients and put together a recipe
         std::vector<Ingredient> ingredients;
-        int expDate;
+        int amount;
         std::string name;
 
         for(std::size_t i = 1; i < tokenList.size() - 1; i += 2) { // starting from second token, ending before the last
             name = tokenList[i];
-            std::cout << "INPUT NAME: " << tokenList[i] << "\t" << "WRITTEN NAME: " << name << "\n\t";
-            expDate =  std::stoi(tokenList[i + 1]);
-            std::cout << "INPUT DATE: " << tokenList[i + 1] << "\t" << "WRITTEN DATE: " << expDate << "\n\t";
-            ingredients.emplace_back(Ingredient(expDate, name));
+            amount =  std::stoi(tokenList[i + 1]);
+            ingredients.emplace_back(Ingredient(10, amount, name));
         }
 
         int prepTime;
@@ -54,25 +52,27 @@ void AppData::parseLine(std::string& line) {
 
     } else if (tokenList[0] == "i") { // store the list of ingredients
         int expDate;
+        int amount;
         std::string name;
 
-        for(std::size_t i = 1; i < tokenList.size() - 2; i++) { // starting from second token, ending before the last
+        for(std::size_t i = 1; i < tokenList.size() - 2; i += 3) { // starting from second token, ending before the last
             expDate = std::stoi(tokenList[i + 2]);
+            amount = std::stoi(tokenList[i + 1]);
             name = tokenList[i];
-            storedIngredients.emplace_back(Ingredient(expDate, name));
-            i += 2; // step size is 3, we skip over 2 things
+            storedIngredients.emplace_back(Ingredient(expDate, amount, name));
         }
     } else if (tokenList[0] == "s") { // update the available products
-        int expDate;
+        int expDate = 10;
+        int amount = 10;
         std::string name;
         int price;
 
-        for(std::size_t i = 1; i < tokenList.size() - 2; i++) { // starting from second token, ending before the last
-            expDate = std::stoi(tokenList[i + 2]);
-            price = std::stoi(tokenList[i + 1]);
+        for(std::size_t i = 1; i < tokenList.size() - 3; i += 4) { // starting from second token, ending before the last
+            expDate = std::stoi(tokenList[i + 3]);
+            price = std::stoi(tokenList[i + 2]);
+            amount = std::stoi(tokenList[i + 1]);
             name = tokenList[i];
-            shopSupplies.emplace_back(Supply(price, expDate, name));
-            i += 2; // step size is 3, we skip over 2 things
+            shopSupplies.emplace_back(Supply(price, amount, expDate, name));
         }
     } else {
         return;
@@ -99,7 +99,7 @@ std::ostream& operator<<(std::ostream& os, const AppData& appData) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Ingredient& ingredient) {
-    os << "Ingredient:\n\t-\t" << ingredient.name << "\n\t-\t" << ingredient.expirationDate << std::endl;
+    os << "Ingredient:\n\t-\t" << ingredient.name << "\n\t-\t" << ingredient.expirationDate << "\n\t-\t" << ingredient.amount << std::endl;
     return os;
 }
 

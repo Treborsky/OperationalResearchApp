@@ -8,8 +8,8 @@
 #include <ingredients/ingredient.h>
 
 struct Supply : public Ingredient {
-    explicit Supply(int supplyPrice, int expDate=10, std::string newName="unnamed")
-        : price(supplyPrice), Ingredient(expDate, std::move(newName)) {}
+    explicit Supply(int supplyPrice, int amount=100, int expDate=10, std::string newName="unnamed")
+        : price(supplyPrice), Ingredient(expDate, amount, std::move(newName)) {}
     int price;
 };
 
