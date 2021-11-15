@@ -22,7 +22,7 @@ double Solution::costFunction(CostFunctionParams& params) const {
     return params.alpha * Mshop + params.beta * Mloss + params.gamma * Ttotal;
 }
 
-double Solution::calculateMshop() const {
+double Solution::calculateMshop() {
     double Mshop = 0.0;
     for(std::size_t j = 0; j < selectedRecipes.size(); ++j) {
         // determine if we have all ingredients for the recipe
@@ -48,28 +48,9 @@ double Solution::calculateMshop() const {
                     for(std::size_t k = 0; k < appData.shopSupplies.size(); ++k) { // we want to find a supply with the same name
                         if (appData.shopSupplies[k].name == currentRecipeIngredient.name) { // if we found it, we buy it
                             Mshop += (double)appData.shopSupplies[k].price; // we buy it
-                            // TODO: include the Money variable from the mathematical model, right now we have
-                            // basically infinite resources
+                            // TODO: include the Money variable from the mathematical model, right now we have basically infinite resources
                             if (idxIfWeHaveIt != -1) {
-                                appData.storedIngredients[idxIfWeHaveIt].amount += appData.shopSupplies[k].amount; // TODO: fix this stuff
-                                // because of C++20, we have to rewrite the entire vector of ingredients to update one element -> wtf
-                                int expDate = appData.storedIngredients[idxIfWeHaveIt].expirationDate;
-                                int amount = appData.storedIngredients[idxIfWeHaveIt].amount;
-                                std::string name = appData.storedIngredients[idxIfWeHaveIt].name;
-
-                                Ingredient updatedIngredient(expDate, amount + appData.shopSupplies[k].amount, name);
-
-                                std::vector<Ingredient> newStoredIngredients;
-                                newStoredIngredients.reserve(appData.storedIngredients.size());
-
-                                for(std::size_t l = 0; l < appData.storedIngredients.size(); ++l) {
-                                    if (l != idxIfWeHaveIt) {
-                                        newStoredIngredients.push_back(appData.storedIngredients[l]);
-                                    } else {
-                                        newStoredIngredients.push_back(updatedIngredient);
-                                    }
-                                } // we bought it goddamit, we also updated the vector
-
+                                appData.storedIngredients[idxIfWeHaveIt].amount += appData.shopSupplies[k].amount;
                             } else { // if we didn't have it in the first place
                                 int expDate = appData.storedIngredients[k].expirationDate;
                                 int amount = appData.storedIngredients[k].amount;
@@ -86,13 +67,13 @@ double Solution::calculateMshop() const {
     return 0.0;
 }
 
-double Solution::calculateMloss() const {
+double Solution::calculateMloss() {
     double Mloss = 0.0;
 
     return Mloss;
 }
 
-double Solution::calculateTtotal() const {
+double Solution::calculateTtotal() {
     double Ttotal = 0.0;
     for(std::size_t i = 0; i < appData.availableRecipies.size(); ++i) {
         if (selectedRecipes[i]) {

@@ -12,9 +12,9 @@ struct Solution {
 
     double costFunction(CostFunctionParams& params) const;
 private:
-    double calculateMshop() const;
-    double calculateMloss() const;
-    double calculateTtotal() const;
+    double calculateMshop();
+    double calculateMloss();
+    double calculateTtotal();
 
     AppData appData;
     std::vector<bool> selectedRecipes;

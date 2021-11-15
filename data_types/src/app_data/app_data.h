@@ -22,6 +22,11 @@ struct AppData {
     }
     void loadData(std::string& filepath);
 
+    void updateIngredient(Ingredient& ingredient, std::size_t idx) { storedIngredients[idx] = ingredient; }
+    void updateIngredient(Ingredient&& ingredient, std::size_t idx) { storedIngredients[idx] = ingredient; }
+    void addIngredient(Ingredient& ingredient) { storedIngredients.emplace_back(ingredient); }
+    void addIngredient(Ingredient&& ingredient) { storedIngredients.emplace_back(ingredient); }
+
     std::vector<Recipe> availableRecipies;
     std::vector<Ingredient> storedIngredients;
     std::vector<Supply> shopSupplies;
