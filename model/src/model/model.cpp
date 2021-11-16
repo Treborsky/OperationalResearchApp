@@ -4,7 +4,8 @@
 
 #include "model.h"
 
-Solution::Solution(AppData& data, std::vector<bool>& selection) : appData(std::move(data)) {
+Solution::Solution(AppData& data, std::vector<bool>& selection, int money, int today)
+    : appData(std::move(data)), Money(money), Today(today) {
     if (selection.size() == data.availableRecipies.size()) {
         selectedRecipes = std::move(selection);
     } else {
@@ -14,10 +15,10 @@ Solution::Solution(AppData& data, std::vector<bool>& selection) : appData(std::m
     }
 }
 
-double Solution::costFunction(CostFunctionParams& params) const {
-    const double Mshop = calculateMshop();
-    const double Mloss = calculateMloss();
-    const double Ttotal = calculateTtotal();
+double Solution::costFunction(CostFunctionParams& params) {
+    double Mshop = calculateMshop();
+    double Mloss = calculateMloss();
+    double Ttotal = calculateTtotal();
 
     return params.alpha * Mshop + params.beta * Mloss + params.gamma * Ttotal;
 }
@@ -28,13 +29,14 @@ double Solution::calculateMshop() {
         // determine if we have all ingredients for the recipe
         // if we don't have enough amount of an ingredient, then we buy one (we add the cost and increase
         // the ingredient amount)
+        // we also need to subtract the amount used in the recipe
         if (selectedRecipes[j]) { // we select availableRecipies[i]
             for(std::size_t i = 0; i < appData.availableRecipies[i].ingredientList.size(); ++i) {
                 // search through the ingredient list and determine if we have enough of the ingredient
                 Ingredient currentRecipeIngredient = appData.availableRecipies[j].ingredientList[i];
                 std::size_t idxIfWeHaveIt = -1;
                 bool isEnough = false;
-                for(std::size_t k = 0; k < appData.storedIngredients.size(); ++k) {
+                for (std::size_t k = 0; k < appData.storedIngredients.size(); ++k) {
                     if (appData.storedIngredients[k].name == currentRecipeIngredient.name) { // do we have it on the list
                         idxIfWeHaveIt = k;
                         if (appData.storedIngredients[k].amount >= currentRecipeIngredient.amount) { // do we have enough of the thing
@@ -45,11 +47,12 @@ double Solution::calculateMshop() {
                     }
                 }
                 if (!isEnough) { // then we have to buy it
-                    for(std::size_t k = 0; k < appData.shopSupplies.size(); ++k) { // we want to find a supply with the same name
+                    for (std::size_t k = 0;
+                         k < appData.shopSupplies.size(); ++k) { // we want to find a supply with the same name
                         if (appData.shopSupplies[k].name == currentRecipeIngredient.name) { // if we found it, we buy it
-                            Mshop += (double)appData.shopSupplies[k].price; // we buy it
+                            Mshop += (double) appData.shopSupplies[k].price; // we buy it
                             // TODO: include the Money variable from the mathematical model, right now we have basically infinite resources
-                            if (idxIfWeHaveIt != -1) {
+                            if (idxIfWeHaveIt != -1) { // we have some, but not enough
                                 appData.storedIngredients[idxIfWeHaveIt].amount += appData.shopSupplies[k].amount;
                             } else { // if we didn't have it in the first place
                                 int expDate = appData.storedIngredients[k].expirationDate;
@@ -61,14 +64,26 @@ double Solution::calculateMshop() {
                         }
                     }
                 }
+                appData.storedIngredients[idxIfWeHaveIt].amount -= appData.availableRecipies[j].ingredientList[i].amount;
             }
         }
     }
-    return 0.0;
+    return Mshop;
 }
 
 double Solution::calculateMloss() {
     double Mloss = 0.0;
+
+    for(std::size_t j = 0; j < selectedRecipes.size(); ++j) {
+        if (!selectedRecipes[j]) { // the ith recipe is taken into the solution
+            Recipe currentRecipe = appData.availableRecipies[j];
+            for(std::size_t i = 0; i < currentRecipe.ingredientList.size(); ++i) {
+                if(currentRecipe.ingredientList[i].expirationDate <= Today) {
+                    // TODO: redefine ingredient so that is has a price
+                }
+            }
+        }
+    }
 
     return Mloss;
 }

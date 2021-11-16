@@ -8,9 +8,9 @@
 #include <app_data/app_data.h>
 
 struct Solution {
-    Solution(AppData& data, std::vector<bool>& selection);
+    Solution(AppData& data, std::vector<bool>& selection, int today, int money);
 
-    double costFunction(CostFunctionParams& params) const;
+    double costFunction(CostFunctionParams& params);
 private:
     double calculateMshop();
     double calculateMloss();
@@ -18,6 +18,8 @@ private:
 
     AppData appData;
     std::vector<bool> selectedRecipes;
+    int Today;
+    int Money;
 };
 
 #endif //OPERATIONALRESEARCHAPP_MODEL_H
