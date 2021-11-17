@@ -77,14 +77,19 @@ double Solution::calculateMloss() {
     for(std::size_t j = 0; j < selectedRecipes.size(); ++j) {
         if (!selectedRecipes[j]) { // the ith recipe is taken into the solution
             Recipe currentRecipe = appData.availableRecipies[j];
-            for(std::size_t i = 0; i < currentRecipe.ingredientList.size(); ++i) {
-                if(currentRecipe.ingredientList[i].expirationDate <= Today) {
+            for(auto & i : currentRecipe.ingredientList) {
+                if(i.expirationDate <= Today) {
                     // TODO: redefine ingredient so that is has a price
+                    for(const auto& supply : appData.shopSupplies) {
+                        if(supply.name == i.name) {
+                            Mloss += supply.price;
+                            break;
+                        }
+                    }
                 }
             }
         }
     }
-
     return Mloss;
 }
 

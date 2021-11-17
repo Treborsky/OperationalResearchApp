@@ -1,5 +1,5 @@
 #include <iostream>
-#include <app_data/app_data.h>
+#include <model/model.h>
 
 int main() {
     std::cout << "Hello program" << std::endl;
@@ -9,7 +9,12 @@ int main() {
     data.loadData(filePath);
     std::cout << "Data loaded without error, printing loaded data: " << std::endl;
     std::cout << data;
-
+    std::vector<bool> recipes;
+    recipes.reserve(1);
+    recipes.push_back(true);
+    CostFunctionParams params(1.0, 1.0, 1.0);
+    Solution randomSolution(data, recipes, 2, 50);
+    std::cout << "Cost function for the random solution: " << randomSolution.costFunction(params) << std::endl;
     // 2 await the task
     // 3 if task is exit
     // 4 exit the app
