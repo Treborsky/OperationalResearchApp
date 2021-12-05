@@ -15,12 +15,13 @@ std::ostream& operator<<(std::ostream& os, const Recipe&);
 std::ostream& operator<<(std::ostream& os, const Supply&);
 
 struct AppData {
-    AppData() {
-        availableRecipies.reserve(10);
-        storedIngredients.reserve(15);
-        shopSupplies.reserve(10);
-    }
+    ~AppData() = default;
     void loadData(std::string& filepath);
+
+    void updateIngredient(Ingredient& ingredient, std::size_t idx) { storedIngredients[idx] = ingredient; }
+    void updateIngredient(Ingredient&& ingredient, std::size_t idx) { storedIngredients[idx] = ingredient; }
+    void addIngredient(Ingredient& ingredient) { storedIngredients.emplace_back(ingredient); }
+    void addIngredient(Ingredient&& ingredient) { storedIngredients.emplace_back(ingredient); }
 
     std::vector<Recipe> availableRecipies;
     std::vector<Ingredient> storedIngredients;

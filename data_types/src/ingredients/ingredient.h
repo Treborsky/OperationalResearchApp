@@ -8,11 +8,12 @@
 #include <utility/utility.h>
 
 struct Ingredient {
-    explicit Ingredient(int expDate=10, std::string newName="unnamed")
-        : expirationDate(expDate), name(std::move(newName)) {}
+    explicit Ingredient(int expDate=10, int am=100, std::string newName="unnamed")
+        : expirationDate(expDate), amount(am), name(std::move(newName)) {}
+    ~Ingredient() = default;
     int expirationDate;
+    int amount;
     std::string name;
-
 };
 
 
