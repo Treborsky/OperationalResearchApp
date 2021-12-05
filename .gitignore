@@ -4,3 +4,4 @@ cmake-build-debug
 **/CMakeCache.txt
 **/Makefile
 **/*.a
+**/App
