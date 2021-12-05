@@ -10,6 +10,7 @@
 struct Recipe {
     explicit Recipe(int prepTime, std::vector<Ingredient> &ingredients)
         : ingredientList(ingredients), preparationTime(prepTime) {}
+    ~Recipe() = default;
     int preparationTime;
     std::vector<Ingredient> ingredientList;
 };

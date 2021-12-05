@@ -4,15 +4,22 @@
 
 #include "utility.h"
 
-std::vector<std::string> strSplit(std::string str, char delim) {
+std::vector<std::string> strSplit(std::string& str, char delim) {
     std::vector<std::string> tokens;
-    tokens.reserve(30);     // completely arbitrary
-    std::size_t pos = 0;
+    tokens.reserve(30);     // completely arbitrary, doesn't affect the size
     std::string token;
-    while((pos = str.find(delim)) != std::string::npos) {
-        token = str.substr(0, pos);
-        tokens.push_back(token);
-        str.erase(0, pos + 1);
+    std::stringstream ss(str);
+    while (ss.good()) {
+        std::string sub;
+        std::getline(ss, sub, delim);
+        tokens.push_back(sub);
     }
     return tokens;
+}
+
+CostFunctionParams::CostFunctionParams(double a, double b, double g) { // normalization
+    double sum = a + b + g;
+    alpha = a / sum;
+    beta = b / sum;
+    gamma = g / sum;
 }

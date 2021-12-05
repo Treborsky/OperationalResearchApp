@@ -1,3 +1,5 @@
 r,bread,50,ham,10,butter,8,5
-i,bread,1000,7,ham,100,3,butter,200,10
-s,bread,1000,5,7,ham,200,8,3,butter,200,5,10
+r,ham,5,bread,50,butter,4,10
+r,beef,300,potatoes,150,salad,450,30
+i,bread,1000,7,ham,100,3,butter,200,10,chicken,1000,3,beef,1000,3,potatoes,3000,20,salad,300,2
+s,bread,1000,5,7,ham,200,8,3,butter,200,5,10,chicken,500,20,3,beef,1000,50,3,potatoes,1000,10,20,salad,300,10,2
