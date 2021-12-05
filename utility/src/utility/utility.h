@@ -14,9 +14,9 @@
 #include <fstream>
 #include <set>
 
-std::vector<std::string> strSplit(std::string str, char delim);
+std::vector<std::string> strSplit(std::string& str, char delim);
 struct CostFunctionParams {
-    explicit CostFunctionParams(double a=1.0, double b=1.0, double g=0.0) : alpha(a), beta(b), gamma(g) {}
+    explicit CostFunctionParams(double a=1.0, double b=1.0, double g=0.0);
     double alpha;
     double beta;
     double gamma;

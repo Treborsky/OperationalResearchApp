@@ -10,6 +10,7 @@
 struct Supply : public Ingredient {
     explicit Supply(int supplyPrice, int amount=100, int expDate=10, std::string newName="unnamed")
         : price(supplyPrice), Ingredient(expDate, amount, std::move(newName)) {}
+    ~Supply() = default;
     int price;
 };
 

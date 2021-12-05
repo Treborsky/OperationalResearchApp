@@ -10,7 +10,7 @@
 struct Ingredient {
     explicit Ingredient(int expDate=10, int am=100, std::string newName="unnamed")
         : expirationDate(expDate), amount(am), name(std::move(newName)) {}
-
+    ~Ingredient() = default;
     int expirationDate;
     int amount;
     std::string name;

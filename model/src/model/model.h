@@ -9,7 +9,7 @@
 
 struct Solution {
     Solution(AppData& data, std::vector<bool>& selection, int today, int money);
-
+    ~Solution() = default;
     double costFunction(CostFunctionParams& params);
 private:
     double calculateMshop();
