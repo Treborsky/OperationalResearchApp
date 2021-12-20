@@ -5,21 +5,22 @@
 #include "app_data.h"
 
 void AppData::loadData(std::string &filepath) {
-    std::ifstream dataFile(filepath);
+    std::ifstream data_file(filepath);
     std::cout << "Opening file" << std::endl;
     // read it line by line, interpreting the stuff inside
     std::string line;
-    if(dataFile.is_open()) {
+    if(data_file.is_open()) {
         std::cout << "File opened successfully" << std::endl;
-        while (dataFile.good()) {
-            dataFile >> line;
+        while (data_file.good()) {
+            data_file >> line;
             parseLine(line);
         }
     }
     std::cout << "\nClosing file\n" << std::endl;
 }
 
-/*  Parses the given line from a .csv file
+void AppData::parseLine(std::string& line) {
+    /*  Parses the given line from a .csv file
         a line consists of a type specifier:
             r - recipes
             i - ingredients
@@ -29,56 +30,57 @@ void AppData::loadData(std::string &filepath) {
             i - list of ingredients that we currently store
             s - list of available items in the store
  */
-void AppData::parseLine(std::string& line) {
-    std::vector<std::string> tokenList = strSplit(line, ',');
 
-    if (tokenList[0] == "r") { // parse the list of ingredients and put together a recipe
+    std::vector<std::string> token_list = strSplit(line, ',');
+
+    if (token_list[0] == "r") { // parse the list of ingredients and put together a recipe
         std::vector<Ingredient> ingredients;
         int amount;
         std::string name;
 
-        for(std::size_t i = 1; i < tokenList.size() - 1; i += 2) { // starting from second token, ending before the last
-            name = tokenList[i];
-            amount =  std::stoi(tokenList[i + 1]);
+        for(std::size_t i = 1; i < token_list.size() - 1; i += 2) { // starting from second token, ending before the last
+            name = token_list[i];
+            amount =  std::stoi(token_list[i + 1]);
             ingredients.emplace_back(Ingredient(10, amount, name));
         }
 
-        int prepTime;
-        prepTime = std::stoi(tokenList[tokenList.size() - 1]);
+        int prep_time;
+        prep_time = std::stoi(token_list[token_list.size() - 1]);
 
-        Recipe newRecipe(prepTime, ingredients);
+        Recipe new_recipe(prep_time, ingredients);
 
-        recipes.emplace_back(newRecipe);
+        recipes.emplace_back(new_recipe);
 
-    } else if (tokenList[0] == "i") { // store the list of ingredients
-        int expDate;
+    } else if (token_list[0] == "i") { // store the list of ingredients
+        int exp_date;
         int amount;
         std::string name;
 
-        for(std::size_t i = 1; i < tokenList.size() - 2; i += 3) { // starting from second token
-            name = tokenList[i];
-            amount = std::stoi(tokenList[i + 1]);
-            expDate = std::stoi(tokenList[i + 2]);
-            ingredients.emplace_back(Ingredient(expDate, amount, name));
+        for(std::size_t i = 1; i < token_list.size() - 2; i += 3) { // starting from second token
+            name = token_list[i];
+            amount = std::stoi(token_list[i + 1]);
+            exp_date = std::stoi(token_list[i + 2]);
+            ingredients.emplace_back(Ingredient(exp_date, amount, name));
         }
-    } else if (tokenList[0] == "s") { // update the available products
-        int expDate;
+    } else if (token_list[0] == "s") { // update the available products
+        int exp_date;
         int amount;
         std::string name;
         int price;
 
-        for(std::size_t i = 1; i < tokenList.size() - 3; i += 4) { // starting from second token
-            name = tokenList[i];
-            amount = std::stoi(tokenList[i + 1]);
-            price = std::stoi(tokenList[i + 2]);
-            expDate = std::stoi(tokenList[i + 3]);
-            supplies.emplace_back(Supply(price, amount, expDate, name));
+        for(std::size_t i = 1; i < token_list.size() - 3; i += 4) { // starting from second token
+            name = token_list[i];
+            amount = std::stoi(token_list[i + 1]);
+            price = std::stoi(token_list[i + 2]);
+            exp_date = std::stoi(token_list[i + 3]);
+            supplies.emplace_back(Supply(price, amount, exp_date, name));
         }
     } else {
         return;
     }
 }
 
+// STREAM OPERATORS
 std::ostream& operator<<(std::ostream& os, const AppData& appData) {
     os << "AppData\n";
     os << "Recipe count: " << appData.recipes.size() << "\n";
@@ -100,12 +102,12 @@ std::ostream& operator<<(std::ostream& os, const AppData& appData) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Ingredient& ingredient) {
-    os << "Ingredient:\n\t-\t" << ingredient.name << "\n\t-\t" << ingredient.expiryDate << "\n\t-\t" << ingredient.amount << std::endl;
+    os << "Ingredient:\n\t-\t" << ingredient.name << "\n\t-\t" << ingredient.expiry_date << "\n\t-\t" << ingredient.amount << std::endl;
     return os;
 }
 
 std::ostream& operator<<(std::ostream& os, const Recipe& recipe) {
-    os << "Recipe:\n\t-\t" << "Preparation time: " << recipe.preparationTime << "\n\t";
+    os << "Recipe:\n\t-\t" << "Preparation time: " << recipe.preparation_time << "\n\t";
     os << "Ingredient list:\n\t";
     for(auto& ingredient : recipe.list) {
         os << ingredient << "\n\t";
@@ -115,6 +117,6 @@ std::ostream& operator<<(std::ostream& os, const Recipe& recipe) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Supply& supply) {
-    os << "Supply:\n\t-\t" << supply.name << "\n\t-\t" << supply.expiryDate << "\n\t-\t" << supply.price << std::endl;
+    os << "Supply:\n\t-\t" << supply.name << "\n\t-\t" << supply.expiry_date << "\n\t-\t" << supply.price << std::endl;
     return os;
 }

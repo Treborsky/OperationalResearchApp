@@ -5,41 +5,41 @@
 #include "model.h"
 
 Solution::Solution(AppData& data, std::vector<bool>& selection, int money, int today)
-    : appData(data), Money(money), Today(today) {
+    : app_data(data), money(money), today(today) {
     if (selection.size() == data.recipes.size()) {
-        selectedRecipes = std::move(selection);
+        selected_recipes = std::move(selection);
     } else {
         std::cout << "Invalid selection of recipies provided, empty vector will be initialized" << std::endl;
-        selectedRecipes = std::vector<bool>();
-        selectedRecipes.reserve(data.recipes.size());
+        selected_recipes = std::vector<bool>();
+        selected_recipes.reserve(data.recipes.size());
     }
 }
 
 double Solution::costFunction(CostFunctionParams& params) {
-    double Mloss = calculateMloss();
-    double Mshop = calculateMshop();
-    double Ttotal = calculateTtotal();
+    double Mloss = sumLosses();
+    double Mshop = sumPurchases();
+    double Ttotal = sumTime();
 
     return params.alpha * Mshop + params.beta * Mloss + params.gamma * Ttotal;
 }
 
-double Solution::calculateMshop() {
+double Solution::sumPurchases() {
     double Mshop = 0.0;
-    for(std::size_t j = 0; j < selectedRecipes.size(); ++j) {
+    for(std::size_t j = 0; j < selected_recipes.size(); ++j) {
         // determine if we have all ingredients for the recipe
         // if we don't have enough amount of an ingredient, then we buy one (we add the cost and increase
         // the ingredient amount)
         // we also need to subtract the amount used in the recipe
-        if (selectedRecipes[j]) { // we select recipes[j]
-            Recipe currentRecipe = appData.recipes[j];
+        if (selected_recipes[j]) { // we select recipes[j]
+            Recipe currentRecipe = app_data.recipes[j];
             for(const auto& currentRecipeIngredient : currentRecipe.list) {
                 // search through the ingredient list and determine if we have enough of the ingredient
                 std::size_t idxIfWeHaveIt = -1;
                 bool isEnough = false;
-                for (std::size_t k = 0; k < appData.ingredients.size(); ++k) {
-                    if (appData.ingredients[k].name == currentRecipeIngredient.name) { // do we have it on the list
+                for (std::size_t k = 0; k < app_data.ingredients.size(); ++k) {
+                    if (app_data.ingredients[k].name == currentRecipeIngredient.name) { // do we have it on the list
                         idxIfWeHaveIt = k;
-                        if (appData.ingredients[k].amount >= currentRecipeIngredient.amount) { // do we have enough of the thing
+                        if (app_data.ingredients[k].amount >= currentRecipeIngredient.amount) { // do we have enough of the thing
                             isEnough = true; // we have enough of the thing do make the recipe
                             break;
                         }
@@ -47,38 +47,38 @@ double Solution::calculateMshop() {
                     }
                 }
                 if (!isEnough) { // then we have to buy it
-                    for (std::size_t k = 0; k < appData.supplies.size(); ++k) { // we want to find a supply with the same name
-                        if (appData.supplies[k].name == currentRecipeIngredient.name) { // if we found it, we buy it
-                            Mshop += appData.supplies[k].price; // we buy it
-                            // TODO: include the Money variable from the mathematical model, right now we have basically infinite resources
+                    for (std::size_t k = 0; k < app_data.supplies.size(); ++k) { // we want to find a supply with the same name
+                        if (app_data.supplies[k].name == currentRecipeIngredient.name) { // if we found it, we buy it
+                            Mshop += app_data.supplies[k].price; // we buy it
+                            // TODO: include the money variable from the mathematical model, right now we have basically infinite resources
                             if (idxIfWeHaveIt != -1) { // we have some, but not enough
-                                appData.ingredients[idxIfWeHaveIt].amount += appData.supplies[k].amount;
+                                app_data.ingredients[idxIfWeHaveIt].amount += app_data.supplies[k].amount;
                             } else { // if we didn't have it in the first place
-                                int expDate = appData.ingredients[k].expiryDate;
-                                int amount = appData.ingredients[k].amount;
-                                std::string name = appData.ingredients[k].name;
-                                appData.ingredients.emplace_back(Ingredient(expDate, amount, name));
+                                int expDate = app_data.ingredients[k].expiry_date;
+                                int amount = app_data.ingredients[k].amount;
+                                std::string name = app_data.ingredients[k].name;
+                                app_data.ingredients.emplace_back(Ingredient(expDate, amount, name));
                             }
                             break;
                         }
                     }
                 }
-                appData.ingredients[idxIfWeHaveIt].amount -= currentRecipeIngredient.amount; // we use up some of it
+                app_data.ingredients[idxIfWeHaveIt].amount -= currentRecipeIngredient.amount; // we use up some of it
             }
         }
     }
     return Mshop;
 }
 
-double Solution::calculateMloss() {
+double Solution::sumLosses() {
     double Mloss = 0.0;
-    for(std::size_t j = 0; j < selectedRecipes.size(); ++j) {
-        if (!selectedRecipes[j]) { // the ith recipe is taken into the solution
-            Recipe currentRecipe = appData.recipes[j];
+    for(std::size_t j = 0; j < selected_recipes.size(); ++j) {
+        if (!selected_recipes[j]) { // the ith recipe is taken into the solution
+            Recipe currentRecipe = app_data.recipes[j];
             for(auto & i : currentRecipe.list) {
-                if(i.expiryDate <= Today) {
+                if(i.expiry_date <= today) {
                     // TODO: redefine ingredient so that is has a price
-                    for(const auto& supply : appData.supplies) {
+                    for(const auto& supply : app_data.supplies) {
                         if(supply.name == i.name) {
                             Mloss += supply.price;
                             break;
@@ -91,11 +91,11 @@ double Solution::calculateMloss() {
     return Mloss;
 }
 
-double Solution::calculateTtotal() {
+double Solution::sumTime() {
     double Ttotal = 0.0;
-    for(std::size_t i = 0; i < appData.recipes.size(); ++i) {
-        if (selectedRecipes[i]) {
-            Ttotal += appData.recipes[i].preparationTime;
+    for(std::size_t i = 0; i < app_data.recipes.size(); ++i) {
+        if (selected_recipes[i]) {
+            Ttotal += app_data.recipes[i].preparation_time;
         }
     }
     return Ttotal;

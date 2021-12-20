@@ -8,25 +8,25 @@
 #include "utility.h"
 
 struct Ingredient {
-    explicit Ingredient(int expDate=10, int am=100, std::string newName="unnamed")
-            : expiryDate(expDate), amount(am), name(std::move(newName)) {}
+    explicit Ingredient(int exp_date=10, int am=100, std::string new_name="unnamed")
+            : expiry_date(exp_date), amount(am), name(std::move(new_name)) {}
     ~Ingredient() = default;
-    int expiryDate;
+    int expiry_date;
     int amount;
     std::string name;
 };
 
 struct Recipe {
-    explicit Recipe(int prepTime, std::vector<Ingredient> &ingredients)
-            : list(ingredients), preparationTime(prepTime) {}
+    explicit Recipe(int prep_time, std::vector<Ingredient> &ingredients)
+            : list(ingredients), preparation_time(prep_time) {}
     ~Recipe() = default;
-    int preparationTime;
+    int preparation_time;
     std::vector<Ingredient> list;
 };
 
 struct Supply : public Ingredient {
-    explicit Supply(int supplyPrice, int amount=100, int expDate=10, std::string newName="unnamed")
-            : price(supplyPrice), Ingredient(expDate, amount, std::move(newName)) {}
+    explicit Supply(int supply_price, int amount=100, int exp_date=10, std::string new_name="unnamed")
+            : price(supply_price), Ingredient(exp_date, amount, std::move(new_name)) {}
     ~Supply() = default;
     int price;
 };

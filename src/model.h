@@ -12,14 +12,14 @@ struct Solution {
     ~Solution() = default;
     double costFunction(CostFunctionParams& params);
 private:
-    double calculateMshop();
-    double calculateMloss();
-    double calculateTtotal();
+    double sumPurchases();
+    double sumLosses();
+    double sumTime();
 
-    AppData appData;
-    std::vector<bool> selectedRecipes;
-    int Today;
-    int Money;
+    AppData app_data;
+    std::vector<bool> selected_recipes;
+    int today;
+    int money;
 };
 
 #endif //OPERATIONALRESEARCHAPP_MODEL_H
