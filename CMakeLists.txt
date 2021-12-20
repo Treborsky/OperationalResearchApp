@@ -3,4 +3,3 @@ project(OperationalResearchApp)
 set(CMAKE_CXX_STANDARD 20)
 include_directories(src)
 add_executable(App main.cpp src/app_data.cpp src/model.cpp src/utility.cpp)
-
