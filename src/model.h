@@ -5,7 +5,7 @@
 #ifndef OPERATIONALRESEARCHAPP_MODEL_H
 #define OPERATIONALRESEARCHAPP_MODEL_H
 
-#include <app_data/app_data.h>
+#include "app_data.h"
 
 struct Solution {
     Solution(AppData& data, std::vector<bool>& selection, int today, int money);

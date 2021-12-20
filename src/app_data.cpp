@@ -48,7 +48,7 @@ void AppData::parseLine(std::string& line) {
 
         Recipe newRecipe(prepTime, ingredients);
 
-        availableRecipies.emplace_back(newRecipe);
+        recipes.emplace_back(newRecipe);
 
     } else if (tokenList[0] == "i") { // store the list of ingredients
         int expDate;
@@ -59,7 +59,7 @@ void AppData::parseLine(std::string& line) {
             name = tokenList[i];
             amount = std::stoi(tokenList[i + 1]);
             expDate = std::stoi(tokenList[i + 2]);
-            storedIngredients.emplace_back(Ingredient(expDate, amount, name));
+            ingredients.emplace_back(Ingredient(expDate, amount, name));
         }
     } else if (tokenList[0] == "s") { // update the available products
         int expDate;
@@ -72,7 +72,7 @@ void AppData::parseLine(std::string& line) {
             amount = std::stoi(tokenList[i + 1]);
             price = std::stoi(tokenList[i + 2]);
             expDate = std::stoi(tokenList[i + 3]);
-            shopSupplies.emplace_back(Supply(price, amount, expDate, name));
+            supplies.emplace_back(Supply(price, amount, expDate, name));
         }
     } else {
         return;
@@ -81,17 +81,17 @@ void AppData::parseLine(std::string& line) {
 
 std::ostream& operator<<(std::ostream& os, const AppData& appData) {
     os << "AppData\n";
-    os << "Recipe count: " << appData.availableRecipies.size() << "\n";
-    os << "Ingredients count: " << appData.storedIngredients.size() << "\n";
-    os << "Supply count: " << appData.shopSupplies.size() << "\n\t";
+    os << "Recipe count: " << appData.recipes.size() << "\n";
+    os << "Ingredients count: " << appData.ingredients.size() << "\n";
+    os << "Supply count: " << appData.supplies.size() << "\n\t";
 
-    for(const auto& recipe : appData.availableRecipies) {
+    for(const auto& recipe : appData.recipes) {
         os << recipe << "\n\t";
     }
-    for(const auto& ingredient : appData.storedIngredients) {
+    for(const auto& ingredient : appData.ingredients) {
         os << ingredient << "\n\t";
     } os << "\n\t";
-    for(const auto& supply : appData.shopSupplies) {
+    for(const auto& supply : appData.supplies) {
         os << supply << "\n\t";
     } os << "\n\t";
 
@@ -100,14 +100,14 @@ std::ostream& operator<<(std::ostream& os, const AppData& appData) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Ingredient& ingredient) {
-    os << "Ingredient:\n\t-\t" << ingredient.name << "\n\t-\t" << ingredient.expirationDate << "\n\t-\t" << ingredient.amount << std::endl;
+    os << "Ingredient:\n\t-\t" << ingredient.name << "\n\t-\t" << ingredient.expiryDate << "\n\t-\t" << ingredient.amount << std::endl;
     return os;
 }
 
 std::ostream& operator<<(std::ostream& os, const Recipe& recipe) {
     os << "Recipe:\n\t-\t" << "Preparation time: " << recipe.preparationTime << "\n\t";
     os << "Ingredient list:\n\t";
-    for(auto& ingredient : recipe.ingredientList) {
+    for(auto& ingredient : recipe.list) {
         os << ingredient << "\n\t";
     }
     os << std::endl;
@@ -115,6 +115,6 @@ std::ostream& operator<<(std::ostream& os, const Recipe& recipe) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Supply& supply) {
-    os << "Supply:\n\t-\t" << supply.name << "\n\t-\t" << supply.expirationDate << "\n\t-\t" << supply.price << std::endl;
+    os << "Supply:\n\t-\t" << supply.name << "\n\t-\t" << supply.expiryDate << "\n\t-\t" << supply.price << std::endl;
     return os;
 }

@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(OperationalResearchApp)
 set(CMAKE_CXX_STANDARD 20)
+include_directories(src)
+add_executable(App main.cpp src/app_data.cpp src/model.cpp src/utility.cpp)
 
-# adding subdirectories that contain libraries
-add_subdirectory(utility)
-add_subdirectory(data_types)
-add_subdirectory(model)
-
-# adding subdirectory with the main function
-add_subdirectory(app)

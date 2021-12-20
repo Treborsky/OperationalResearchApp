@@ -15,6 +15,8 @@
 #include <set>
 
 std::vector<std::string> strSplit(std::string& str, char delim);
+std::vector<bool> randomSolution(std::size_t size);
+
 struct CostFunctionParams {
     explicit CostFunctionParams(double a=1.0, double b=1.0, double g=0.0);
     double alpha;
