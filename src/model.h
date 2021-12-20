@@ -5,21 +5,21 @@
 #ifndef OPERATIONALRESEARCHAPP_MODEL_H
 #define OPERATIONALRESEARCHAPP_MODEL_H
 
-#include <app_data/app_data.h>
+#include "app_data.h"
 
 struct Solution {
     Solution(AppData& data, std::vector<bool>& selection, int today, int money);
     ~Solution() = default;
     double costFunction(CostFunctionParams& params);
 private:
-    double calculateMshop();
-    double calculateMloss();
-    double calculateTtotal();
+    double sumPurchases();
+    double sumLosses();
+    double sumTime();
 
-    AppData appData;
-    std::vector<bool> selectedRecipes;
-    int Today;
-    int Money;
+    AppData app_data;
+    std::vector<bool> selected_recipes;
+    int today;
+    int money;
 };
 
 #endif //OPERATIONALRESEARCHAPP_MODEL_H

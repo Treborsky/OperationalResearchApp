@@ -17,6 +17,15 @@ std::vector<std::string> strSplit(std::string& str, char delim) {
     return tokens;
 }
 
+std::vector<bool> randomSolution(std::size_t size) {
+    std::vector<bool> generated_solution;
+    generated_solution.reserve(size);
+    for(int i = 0; i < size; ++i) {
+        generated_solution.push_back(randomBoolGenerator(gen));
+    }
+    return generated_solution;
+}
+
 CostFunctionParams::CostFunctionParams(double a, double b, double g) { // normalization
     double sum = a + b + g;
     alpha = a / sum;
