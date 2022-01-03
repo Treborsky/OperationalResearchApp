@@ -5,21 +5,30 @@
 #ifndef OPERATIONALRESEARCHAPP_MODEL_H
 #define OPERATIONALRESEARCHAPP_MODEL_H
 
-#include "app_data.h"
+#include "utility.h"
 
-struct Solution {
-    Solution(AppData& data, std::vector<bool>& selection, int today, int money);
-    ~Solution() = default;
-    double costFunction(CostFunctionParams& params);
+/*
+ TODO: PUT IT IN A STRUCTURE OR NAMESPACE
+ */
+class Model {
+public:
+    void loadModel();
 private:
-    double sumPurchases();
-    double sumLosses();
-    double sumTime();
+    void loadRecipes();
+    void loadTimes();
+    void loadQuantities();
+    void loadExpirationDates();
+    void loadPrices();
 
-    AppData app_data;
-    std::vector<bool> selected_recipes;
-    int today;
-    int money;
-};
+    VectorBool generateInitialSolution();
+    VectorBool generateNewSolution();
+
+    Matrix2 R;      // Recipe matrix (row = list of ingredients, row[i] = amount of certain ingredient
+    Matrix2Bool X;  // Solution (row = one solution)
+    VectorInt T;    // Times of preparation for recipes
+    VectorInt Q;    // Amounts of ingredients
+    VectorInt E;    // Expiration dates for ingredients
+    VectorInt P;    // Prices for ingredients in the shop
+}
 
 #endif //OPERATIONALRESEARCHAPP_MODEL_H

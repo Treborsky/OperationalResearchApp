@@ -20,6 +20,12 @@
 /*
     TODO: figure out a better way to do this
  */
+
+typedef std::vector<std::vector<int>> Matrix2;
+typedef std::vector<std::vector<bool>> Matrix2Bool;
+typedef std::vector<int> VectorInt;
+typedef std::vector<bool> VectorBool;
+
 static std::random_device rd;
 static std::mt19937 gen(rd());
 static std::bernoulli_distribution randomBoolGenerator(0.5); // 50% for true and 50% for false

@@ -32,3 +32,4 @@ CostFunctionParams::CostFunctionParams(double a, double b, double g) { // normal
     beta = b / sum;
     gamma = g / sum;
 }
+
