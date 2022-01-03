@@ -4,7 +4,6 @@
 
 #include "utility.h"
 
-
 void clearConsole() {
     for (int i = 0; i < 500; i++) { std::cout << "\n"; }
 }
@@ -15,4 +14,3 @@ CostFunctionParams::CostFunctionParams(double a, double b, double g) { // normal
     beta = b / sum;
     gamma = g / sum;
 }
-

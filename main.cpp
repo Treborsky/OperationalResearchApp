@@ -4,11 +4,11 @@
 
 #include "model.h"
 
-int main(int argc, char** argv) {
-//    std::cout << "Testing json" << std::endl;
-//    Model model;
-//    model.loadModel("../generated_data.json");
+int main() {
+
     AppState state = MENU;
+    Model model;
+
     while(state != QUIT) {
         switch (state) {
             case MENU: {
@@ -39,6 +39,12 @@ int main(int argc, char** argv) {
                 std::cout << file_sel_str << "Insert relative file path: ";
                 std::string file_path;
                 std::cin >> file_path;
+                // TODO: add regex to check if the file is in fact a .json on relative path
+                try {
+                    model.loadModel(file_path);
+                } catch (std::exception& ex) {
+                    std::cout << "Path to invalid file provided." << std::endl;
+                }
                 state = MENU;
                 break;
             }

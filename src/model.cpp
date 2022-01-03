@@ -14,6 +14,7 @@ void Model::loadModel(const std::string& file_path) {
     m_n = json_file["n"];
     m_m = json_file["m"];
 
+    // TODO: figure out how big should the solution space be
 //    m_X.reserve(m_n);
 //    for(auto& solution : m_X) {
 //        solution.reserve(m_p);
@@ -40,5 +41,5 @@ void Model::generateInitialSolution() {
 }
 
 void Model::generateNewSolution() {
-
+    // TODO: implement generating a new solution
 }

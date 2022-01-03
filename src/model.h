@@ -7,6 +7,8 @@
 
 #include "utility.h"
 
+// contains all data and functionality to perform
+// optimization using the Taboo Search algo
 class Model {
 public:
     void loadModel(const std::string& file_path);
