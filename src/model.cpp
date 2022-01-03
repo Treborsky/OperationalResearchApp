@@ -14,16 +14,20 @@ void Model::loadModel(const std::string& file_path) {
     m_n = json_file["n"];
     m_m = json_file["m"];
 
-    m_X.reserve(m_n);
-    for(auto& solution : m_X) {
-        solution.reserve(m_m);
-    }
+//    m_X.reserve(m_n);
+//    for(auto& solution : m_X) {
+//        solution.reserve(m_p);
+//    }
 
     m_R = json_file["recipes"].get<Matrix2>();
     m_T = json_file["times"].get<VectorInt>();
     m_Q = json_file["quantities"].get<VectorInt>();
     m_E = json_file["dates"].get<VectorInt>();
     m_P = json_file["prices"].get<VectorInt>();
+}
+
+void Model::calculateCostFunction(const CostFunctionParams &params) {
+    // TODO: implement the cost function
 }
 
 void Model::generateInitialSolution() {

@@ -33,6 +33,13 @@ static std::random_device rd;
 static std::mt19937 gen(rd());
 static std::bernoulli_distribution randomBoolGenerator(0.5); // 50% for true and 50% for false
 
+static std::string menu_str = "Menu\n======================\n1. File input\n2. Parameter selection\n3. Result view\n4. Optimize\nInput: ";
+static std::string file_sel_str = "File input\n======================\n";
+static std::string param_sel_str = "Parameter selection\n======================\n";
+static std::string result_view_str = "Result view\n======================\n";
+static std::string calculations_str = "Performing optimization...\n";
+static std::string quit_str = "Quitting...";
+
 std::vector<std::string> strSplit(std::string& str, char delim);
 std::vector<bool> randomSolution(std::size_t size);
 
@@ -41,6 +48,15 @@ struct CostFunctionParams {
     double alpha;
     double beta;
     double gamma;
+};
+
+enum AppState {
+    MENU,
+    FILE_SEL,
+    PARAM_SEL,
+    RESULT_VIEW,
+    CALCULATIONS,
+    QUIT
 };
 
 #endif //OPERATIONALRESEARCHAPP_UTILITY_H

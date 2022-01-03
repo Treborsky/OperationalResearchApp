@@ -10,7 +10,7 @@
 class Model {
 public:
     void loadModel(const std::string& file_path);
-
+    void calculateCostFunction(const CostFunctionParams& params);
 private:
     void generateInitialSolution();
     void generateNewSolution();
