@@ -10,6 +10,7 @@
 class Model {
 public:
     void loadModel(const std::string& file_path);
+
 private:
     void generateInitialSolution();
     void generateNewSolution();

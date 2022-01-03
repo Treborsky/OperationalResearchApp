@@ -36,5 +36,5 @@ void Model::generateInitialSolution() {
 }
 
 void Model::generateNewSolution() {
-    return VectorBool{};
+
 }
