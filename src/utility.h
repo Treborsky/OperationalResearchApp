@@ -1,5 +1,5 @@
 //
-// Created by User on 09.11.2021.
+// Created by Robert Koziarski on 09.11.2021.
 //
 
 #ifndef OPERATIONALRESEARCHAPP_UTILITY_H
@@ -38,10 +38,8 @@ static std::string file_sel_str = "File input\n======================\n";
 static std::string param_sel_str = "Parameter selection\n======================\n";
 static std::string result_view_str = "Result view\n======================\n";
 static std::string calculations_str = "Performing optimization...\n";
-static std::string quit_str = "Quitting...";
 
-std::vector<std::string> strSplit(std::string& str, char delim);
-std::vector<bool> randomSolution(std::size_t size);
+void clearConsole();
 
 struct CostFunctionParams {
     explicit CostFunctionParams(double a=1.0, double b=1.0, double g=0.0);

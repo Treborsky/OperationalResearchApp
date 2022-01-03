@@ -1,13 +1,18 @@
+//
+// Created by Robert Koziarski on 09.11.2021.
+//
+
 #include "model.h"
 
 int main(int argc, char** argv) {
 //    std::cout << "Testing json" << std::endl;
 //    Model model;
-//    model.loadModel("../generated_data.json");  // todo: put into cli
+//    model.loadModel("../generated_data.json");
     AppState state = MENU;
     while(state != QUIT) {
         switch (state) {
             case MENU: {
+                clearConsole();
                 std::cout << std::endl << menu_str;
                 int new_state;
                 std::cin >> new_state;

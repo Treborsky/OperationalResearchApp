@@ -1,5 +1,5 @@
 //
-// Created by User on 14.11.2021.
+// Created by Robert Koziarski on 14.11.2021.
 //
 
 #include "model.h"
