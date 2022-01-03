@@ -7,9 +7,6 @@
 
 #include "utility.h"
 
-/*
- TODO: PUT IT IN A STRUCTURE OR NAMESPACE
- */
 class Model {
 public:
     void loadModel();
@@ -29,6 +26,12 @@ private:
     VectorInt Q;    // Amounts of ingredients
     VectorInt E;    // Expiration dates for ingredients
     VectorInt P;    // Prices for ingredients in the shop
+
+    const std::string data_file_path;
+
+    int n;  // number of recipes
+    int m;  // number of ingredients
+    int p;  // size of solution space
 }
 
 #endif //OPERATIONALRESEARCHAPP_MODEL_H

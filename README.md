@@ -24,7 +24,7 @@ An application that calculates the optimal purchases and cooking in order to min
  - X[ i ][ j ] is a boolean value indicating whether the given recipe will be used or not
  - size is <number_of_solutions / size_of_solution_space> x N
 ### T vector
- - T[ i ] is the preparation time for i-th ingredient
+ - T[ i ] is the preparation time for i-th recipe
  - size is 1 x N
 ### Q vector
  - Q[ j ] is the amount of j-th ingredient we have available

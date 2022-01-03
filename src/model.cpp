@@ -11,22 +11,27 @@ void Model::loadModel() {
 void Model::loadRecipes() {
 
 }
+
 void Model::loadTimes() {
 
 }
+
 void Model::loadQuantities() {
 
 }
+
 void Model::loadExpirationDates() {
 
 }
+
 void Model::loadPrices() {
 
 }
 
 VectorBool Model::generateInitialSolution() {
-    return VectorBool{}
+    return VectorBool{};
 }
+
 VectorBool Model::generateNewSolution() {
     return VectorBool{};
 }
