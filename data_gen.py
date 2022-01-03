@@ -47,6 +47,8 @@ if __name__ == "__main__":
     n = 20
     m = 6
     json_object = '{\n\t' \
+                  + f'"n" : {n},\n\t' \
+                  + f'"m" : {m},\n\t' \
                   + generate_prices(m) \
                   + generate_quantities(m) \
                   + generate_exp_dates(m) \

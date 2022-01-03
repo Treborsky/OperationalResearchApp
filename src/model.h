@@ -9,29 +9,21 @@
 
 class Model {
 public:
-    void loadModel();
+    void loadModel(const std::string& file_path);
 private:
-    void loadRecipes();
-    void loadTimes();
-    void loadQuantities();
-    void loadExpirationDates();
-    void loadPrices();
+    void generateInitialSolution();
+    void generateNewSolution();
 
-    VectorBool generateInitialSolution();
-    VectorBool generateNewSolution();
+    Matrix2 m_R;      // Recipe matrix (row = list of ingredients, row[i] = amount of certain ingredient
+    Matrix2Bool m_X;  // Solution (row = one solution)
+    VectorInt m_T;    // Times of preparation for recipes
+    VectorInt m_Q;    // Amounts of ingredients
+    VectorInt m_E;    // Expiration dates for ingredients
+    VectorInt m_P;    // Prices for ingredients in the shop
 
-    Matrix2 R;      // Recipe matrix (row = list of ingredients, row[i] = amount of certain ingredient
-    Matrix2Bool X;  // Solution (row = one solution)
-    VectorInt T;    // Times of preparation for recipes
-    VectorInt Q;    // Amounts of ingredients
-    VectorInt E;    // Expiration dates for ingredients
-    VectorInt P;    // Prices for ingredients in the shop
-
-    const std::string data_file_path;
-
-    int n;  // number of recipes
-    int m;  // number of ingredients
-    int p;  // size of solution space
-}
+    int m_n;  // number of recipes
+    int m_m;  // number of ingredients
+    int m_p;  // size of solution space
+};
 
 #endif //OPERATIONALRESEARCHAPP_MODEL_H

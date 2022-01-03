@@ -5,6 +5,7 @@ An application that calculates the optimal purchases and cooking in order to min
 ### Business logic
  - C++ 20
  - CMake 3.20.2
+ - Python 3.6 (random, json modules) (for data generation)
 
 ### Presentation
  - to be decided

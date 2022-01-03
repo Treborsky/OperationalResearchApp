@@ -16,10 +16,13 @@
 #include <random>
 #include <functional>
 #include <ctime>
+#include "json.h"
 
 /*
     TODO: figure out a better way to do this
  */
+
+using json = nlohmann::json;
 
 typedef std::vector<std::vector<int>> Matrix2;
 typedef std::vector<std::vector<bool>> Matrix2Bool;
