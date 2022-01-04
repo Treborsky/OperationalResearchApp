@@ -14,12 +14,12 @@ public:
     void loadModel(const std::string& file_path);
     [[nodiscard]] double calculateCostFunction(int p_solution) const;
     double testCostFunction(int solution_nr);
+    void generateSolutionSpace(int size);
 
     void set_params(double a, double b, double g);
-    const int get_solution_space_size() const;
+    [[nodiscard]] int get_solution_space_size() const;
 private:
-    void generateInitialSolution();
-    void generateNewSolution();
+    void generateRandomSolution();
     [[nodiscard]] inline bool determineIsProductExpired(int product_idx) const;
 
     int today;
@@ -30,6 +30,10 @@ private:
     VectorInt m_Q;    // Amounts of ingredients
     VectorInt m_E;    // Expiration dates for ingredients
     VectorInt m_P;    // Prices for ingredients in the shop
+
+    // TODO: think this stuff over and implement TS algo
+    std::map<double, int> evaluated_solutions;
+    std::map<int, int> moves;
 
     int m_n;  // number of recipes
     int m_m;  // number of ingredients

@@ -32,14 +32,13 @@ void Model::set_params(double a, double b, double g) {
     params = CostFunctionParams(a, b, g);
 }
 
-const int Model::get_solution_space_size() const {
+int Model::get_solution_space_size() const {
     return m_X.size();
 }
 
-
 double Model::testCostFunction(int solution_nr) {
     // generates one solution and calculates the cost function
-    generateInitialSolution();
+    generateRandomSolution();
     return calculateCostFunction(solution_nr);
 }
 
@@ -69,7 +68,7 @@ double Model::calculateCostFunction(int p_solution) const {
     return params.alpha * cost_shop + params.beta * cost_loss + params.gamma * cost_time;
 }
 
-void Model::generateInitialSolution() {
+void Model::generateRandomSolution() {
     VectorBool initial_solution;
     for (int i = 0; i < m_n; ++i) {
         initial_solution.push_back(randomBoolGenerator(gen));
@@ -77,6 +76,9 @@ void Model::generateInitialSolution() {
     m_X.push_back(initial_solution);
 }
 
-void Model::generateNewSolution() {
-    // TODO: implement generating a new solution
+void Model::generateSolutionSpace(int size) {
+    // TODO: implement
+    for ( int i = 0; i < size; ++i) {
+        generateRandomSolution();
+    }
 }
