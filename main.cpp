@@ -8,6 +8,7 @@ int main() {
 
     AppState state = MENU;
     Model model;
+    int selected_solution = 0;
 
     while(state != QUIT) {
         switch (state) {
@@ -56,6 +57,7 @@ int main() {
                 std::cin >> beta;
                 std::cout << "gamma: ";
                 std::cin >> gamma;
+                model.set_params(alpha, beta, gamma);
                 state = MENU;
                 break;
             }
@@ -76,7 +78,15 @@ int main() {
             case CALCULATIONS: {
                 std::cout << calculations_str;
                 // TODO: perform optimization
-                state = MENU;
+                double score = model.testCostFunction(selected_solution);
+                std::cout << "Score: " << score << std::endl;
+                std::cout << "Type which solution to calculate, currently there are: "
+                    << model.get_solution_space_size() << " solutions" << std::endl;
+                std::cout << "Or to quit to menu, type -1" << std::endl;
+                std::cin >> selected_solution;
+                if (selected_solution == -1 || selected_solution > model.get_solution_space_size()) {
+                    state = MENU;
+                }
                 break;
             }
             default:

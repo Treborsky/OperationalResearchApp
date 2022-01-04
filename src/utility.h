@@ -18,6 +18,8 @@
 #include <ctime>
 #include "json.h"
 
+#define MAX(a, b) ((a > b) ? (a) : (b))
+
 /*
     TODO: figure out a better way to do this
  */
