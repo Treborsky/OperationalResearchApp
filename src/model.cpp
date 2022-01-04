@@ -28,7 +28,7 @@ void Model::loadModel(const std::string& file_path) {
 }
 
 void Model::calculateCostFunction(const CostFunctionParams &params) {
-    // TODO: implement the cost function
+
 }
 
 void Model::generateInitialSolution() {
