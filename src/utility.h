@@ -23,7 +23,15 @@
 using json = nlohmann::json;
 
 void clearConsole();
-extern std::function<bool()> random_bool;
+std::chrono::system_clock::rep time_since_epoch(){
+    static_assert(
+            std::is_integral<std::chrono::system_clock::rep>::value,
+            "Representation of ticks isn't an integral value."
+    );
+    auto now = std::chrono::system_clock::now().time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::seconds>(now).count();
+}
+inline static std::function<bool()> random_bool = std::bind(std::uniform_int_distribution<>(0, 1), time_since_epoch());
 
 inline static const char * menu_str = "Menu\n======================\n1. File input\n2. Parameter selection\n3. Result view\n4. Optimize\nInput: ";
 inline static const char * file_sel_str = "File input\n======================\n";
