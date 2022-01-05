@@ -78,13 +78,13 @@ int main() {
             case CALCULATIONS: {
                 std::cout << calculations_str;
                 // TODO: perform optimization
-                double score = model.testCostFunction(selected_solution);
-                std::cout << "Score: " << score << std::endl;
-                std::cout << "Type which solution to calculate, currently there are: "
-                    << model.get_solution_space_size() << " solutions" << std::endl;
-                std::cout << "Or to quit to menu, type -1" << std::endl;
-                std::cin >> selected_solution;
-                if (selected_solution == -1 || selected_solution > model.get_solution_space_size()) {
+                auto result = model.tabooSearch(10, 1.0);
+                std::cout << "Taboo search found: " << result.second << " th solution to be the best with score: "
+                    << result.first << std::endl;
+                std::cout << "To quit to menu type -1, to calculate again, type anything else" << std::endl;
+                int flag;
+                std::cin >> flag;
+                if (flag == -1) {
                     state = MENU;
                 }
                 break;

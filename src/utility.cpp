@@ -5,7 +5,7 @@
 #include "utility.h"
 
 void clearConsole() {
-    for (int i = 0; i < 110; i++) { std::cout << "\n"; }
+    std::cout << "\n========================================" << std::endl;
 }
 
 CostFunctionParams::CostFunctionParams(double a, double b, double g) { // normalization
