@@ -19,11 +19,11 @@ void Model::loadModel(const std::string& file_path) {
 //    }
     today = 1;
     money = 1000;
-    m_R = json_file["recipes"].get<Matrix2>();
-    m_T = json_file["times"].get<VectorInt>();
-    m_Q = json_file["quantities"].get<VectorInt>();
-    m_E = json_file["dates"].get<VectorInt>();
-    m_P = json_file["prices"].get<VectorInt>();
+    m_R = json_file["recipes"].get<std::vector<std::vector<int>>>();
+    m_T = json_file["times"].get<std::vector<int>>();
+    m_Q = json_file["quantities"].get<std::vector<int>>();
+    m_E = json_file["dates"].get<std::vector<int>>();
+    m_P = json_file["prices"].get<std::vector<int>>();
 
     params = CostFunctionParams(1.0, 1.0, 1.0);
 }
@@ -160,14 +160,14 @@ void Model::addNewToTaboo(int old_idx, int new_idx) {
     }
 }
 
-VectorBool Model::generateSolutionDiff(VectorBool& current, int diff) {
+std::vector<bool> Model::generateSolutionDiff(std::vector<bool>& current, int diff) {
     std::uniform_int_distribution<> random_idx(0, current.size());
     std::set<int> indices;
 
 }
 
 void Model::generateRandomSolution() {
-    VectorBool initial_solution;
+    std::vector<bool> initial_solution;
     for (int i = 0; i < m_n; ++i) {
         initial_solution.push_back(random_bool());
     }
@@ -176,7 +176,7 @@ void Model::generateRandomSolution() {
 
 // generates n! solutions
 void Model::generateAllBinaryPerm() {
-    VectorBool initial_solution;
+    std::vector<bool> initial_solution;
     for (int i = 0; i < m_n; ++i) {
         if (i < 3) initial_solution.push_back(true);
         else initial_solution.push_back(false);
@@ -185,7 +185,7 @@ void Model::generateAllBinaryPerm() {
     solutionPermute(initial_solution, m_n, 0);
 }
 
-void Model::solutionPermute(VectorBool current, int n, int i) {
+void Model::solutionPermute(std::vector<bool> current, int n, int i) {
     if (i == n) {
         unsigned int vec_sum = std::count(current.begin(), current.end(), true);
         if (vec_sum == 3) m_X.push_back(current);

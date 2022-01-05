@@ -22,23 +22,14 @@
 
 using json = nlohmann::json;
 
-struct Taboo;
-
-typedef std::vector<std::vector<int>> Matrix2;
-typedef std::vector<std::vector<bool>> Matrix2Bool;
-typedef std::vector<int> VectorInt;
-typedef std::vector<bool> VectorBool;
-typedef std::vector<Taboo> VectorTaboo;
-
-static auto random_bool = std::bind(std::uniform_int_distribution<>(0, 1), std::mt19937());
-
-static std::string menu_str = "Menu\n======================\n1. File input\n2. Parameter selection\n3. Result view\n4. Optimize\nInput: ";
-static std::string file_sel_str = "File input\n======================\n";
-static std::string param_sel_str = "Parameter selection\n======================\n";
-static std::string result_view_str = "Result view\n======================\n";
-static std::string calculations_str = "Performing optimization...\n";
-
 void clearConsole();
+extern std::function<bool()> random_bool;
+
+static const char * menu_str = "Menu\n======================\n1. File input\n2. Parameter selection\n3. Result view\n4. Optimize\nInput: ";
+static const char * file_sel_str = "File input\n======================\n";
+static const char * param_sel_str = "Parameter selection\n======================\n";
+static const char * result_view_str = "Result view\n======================\n";
+static const char * calculations_str = "Performing optimization...\n";
 
 struct CostFunctionParams {
     explicit CostFunctionParams(double a=1.0, double b=1.0, double g=0.0);

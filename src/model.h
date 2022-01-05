@@ -21,22 +21,22 @@ public:
     [[nodiscard]] int get_solution_space_size() const;
 private:
     void addNewToTaboo(int old_idx, int new_idx);
-    VectorBool generateSolutionDiff(VectorBool& current, int diff);
-    void solutionPermute(VectorBool current, int n, int i); // TODO: do it smarter
+    std::vector<bool> generateSolutionDiff(std::vector<bool>& current, int diff);
+    void solutionPermute(std::vector<bool> current, int n, int i); // TODO: do it smarter
     void generateRandomSolution();
     [[nodiscard]] inline bool determineIsProductExpired(int product_idx) const;
 
     int today;
     int money;
-    Matrix2 m_R;      // Recipe matrix (row = list of ingredients, row[i] = amount of certain ingredient
-    Matrix2Bool m_X;  // Solution (row = one solution)
-    VectorInt m_T;    // Times of preparation for recipes
-    VectorInt m_Q;    // Amounts of ingredients
-    VectorInt m_E;    // Expiration dates for ingredients
-    VectorInt m_P;    // Prices for ingredients in the shop
+    std::vector<std::vector<int>> m_R;      // Recipe matrix (row = list of ingredients, row[i] = amount of certain ingredient
+    std::vector<std::vector<bool>> m_X;  // Solution (row = one solution)
+    std::vector<int> m_T;    // Times of preparation for recipes
+    std::vector<int> m_Q;    // Amounts of ingredients
+    std::vector<int> m_E;    // Expiration dates for ingredients
+    std::vector<int> m_P;    // Prices for ingredients in the shop
 
-    VectorTaboo taboo_list; // contains indices inside a solution vector and a move that is taboo
-    VectorInt non_taboo;    // has indices of solutions in m_X
+    std::vector<Taboo> taboo_list; // contains indices inside a solution vector and a move that is taboo
+    std::vector<int> non_taboo;    // has indices of solutions in m_X
     double best_min;
     int iteration_limit;
 
