@@ -18,20 +18,19 @@
 #include <ctime>
 #include "json.h"
 
-/*
-    TODO: figure out a better way to do this
- */
+#define MAX(a, b) ((a > b) ? (a) : (b))
 
 using json = nlohmann::json;
+
+struct Taboo;
 
 typedef std::vector<std::vector<int>> Matrix2;
 typedef std::vector<std::vector<bool>> Matrix2Bool;
 typedef std::vector<int> VectorInt;
 typedef std::vector<bool> VectorBool;
+typedef std::vector<Taboo> VectorTaboo;
 
-static std::random_device rd;
-static std::mt19937 gen(rd());
-static std::bernoulli_distribution randomBoolGenerator(0.5); // 50% for true and 50% for false
+static auto random_bool = std::bind(std::uniform_int_distribution<>(0, 1), std::mt19937());
 
 static std::string menu_str = "Menu\n======================\n1. File input\n2. Parameter selection\n3. Result view\n4. Optimize\nInput: ";
 static std::string file_sel_str = "File input\n======================\n";
@@ -46,6 +45,16 @@ struct CostFunctionParams {
     double alpha;
     double beta;
     double gamma;
+};
+
+enum Move {
+    ZERO_ONE,
+    ONE_ZERO
+};
+
+struct Taboo {
+    int idx;
+    Move move;
 };
 
 enum AppState {

@@ -8,6 +8,7 @@ int main() {
 
     AppState state = MENU;
     Model model;
+    int selected_solution = 0;
 
     while(state != QUIT) {
         switch (state) {
@@ -56,6 +57,7 @@ int main() {
                 std::cin >> beta;
                 std::cout << "gamma: ";
                 std::cin >> gamma;
+                model.set_params(alpha, beta, gamma);
                 state = MENU;
                 break;
             }
@@ -76,7 +78,15 @@ int main() {
             case CALCULATIONS: {
                 std::cout << calculations_str;
                 // TODO: perform optimization
-                state = MENU;
+                auto result = model.tabooSearch(10, 1.0);
+                std::cout << "Taboo search found: " << result.second << " th solution to be the best with score: "
+                    << result.first << std::endl;
+                std::cout << "To quit to menu type -1, to calculate again, type anything else" << std::endl;
+                int flag;
+                std::cin >> flag;
+                if (flag == -1) {
+                    state = MENU;
+                }
                 break;
             }
             default:
