@@ -160,11 +160,11 @@ void Model::addNewToTaboo(int old_idx, int new_idx) {
     }
 }
 
-std::vector<bool> Model::generateSolutionDiff(std::vector<bool>& current, int diff) {
-    std::uniform_int_distribution<> random_idx(0, current.size());
-    std::set<int> indices;
-
-}
+//std::vector<bool> Model::generateSolutionDiff(std::vector<bool>& current, int diff) {
+//    std::uniform_int_distribution<> random_idx(0, current.size());
+//    std::set<int> indices;
+//
+//}
 
 void Model::generateRandomSolution() {
     std::vector<bool> initial_solution;
