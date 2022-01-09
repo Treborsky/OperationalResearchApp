@@ -11,6 +11,10 @@ An application that calculates the optimal purchases and cooking in order to min
  - to be decided
  - TUI - terminal / text
 
+### Actions:
+ - CMake build&test
+ - build matrix for ubuntu-latest and windows-latest
+
 ## Notes
 ### Dimensions
  - N is the number of recipes

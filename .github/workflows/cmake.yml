@@ -2,16 +2,16 @@ name: CMake
 
 on:
   push:
-    branches: [ release, main, dev ]
+    branches: [ dev ]
   pull_request:
-    branches: [ release, main, dev ]
+    branches: [ release ]
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
 
 jobs:
-  build:
+  build-and-test:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
