@@ -6,25 +6,21 @@
 #define OPERATIONALRESEARCHAPP_MODEL_H
 
 #include "utility.h"
-
+#ifdef _WIN32
+#define USING_INLINE_FILE
+#endif
 // contains all data and functionality to perform
 // optimization using the Taboo Search algo
 class Model {
 public:
+
     void loadModel(const std::string& file_path);
-    [[nodiscard]] double calculateCostFunction(int p_solution) const;
+    double calculateCostFunction(int p_solution) const;
     std::pair<double, int> tabooSearch(int max_iterations, double asp_coeff);
-    double testCostFunction(int solution_nr);
-    void generateAllBinaryPerm();
 
     void set_params(double a, double b, double g);
-    [[nodiscard]] int get_solution_space_size() const;
 private:
-    void addNewToTaboo(int old_idx, int new_idx);
-    std::vector<bool> generateSolutionDiff(std::vector<bool>& current, int diff);
-    void solutionPermute(std::vector<bool> current, int n, int i); // TODO: do it smarter
-    void generateRandomSolution();
-    [[nodiscard]] inline bool determineIsProductExpired(int product_idx) const;
+    inline bool determineIsProductExpired(int product_idx) const;
 
     int today;
     int money;
