@@ -5,11 +5,7 @@
 #ifndef OPERATIONALRESEARCHAPP_MODEL_H
 #define OPERATIONALRESEARCHAPP_MODEL_H
 
-#include "utility.h"
-#ifdef _WIN32
-#define USING_INLINE_FILE
-#endif
-#define USING_INLINE_FILE   // TEMPORARY: pipelines will fail until I figure out a way to artifact the generated .json file
+#include "utility.h"  // TEMPORARY: pipelines will fail until I figure out a way to artifact the generated .json file
 
 
 enum NeighborhoodType {

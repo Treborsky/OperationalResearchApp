@@ -45,7 +45,7 @@ def generate_times(n: int):
 if __name__ == "__main__":
     random.seed(420)
     n = 20
-    m = 150
+    m = 50
     money = 1000
 
     json_object = '{' \
