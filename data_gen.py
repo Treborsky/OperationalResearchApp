@@ -1,3 +1,5 @@
+"""JSON data generator for https://github.com/Treborsky/OperationalResearchApp project"""
+
 import random
 import json
 
