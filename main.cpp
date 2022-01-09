@@ -4,94 +4,73 @@
 
 #include "model.h"
 
+NeighborhoodType interpret_nbr_select_type(int);
+inline SolutionSelectionMethod interpret_ssm_select_type(int);
+
 int main() {
+    Model model = Model();
 
-    AppState state = MENU;
-    Model model;
-    int selected_solution = 0;
+    std::cout << "Hardcoded model loaded. Insert parameters to run optimization" << std::endl;
 
-    while(state != QUIT) {
-        switch (state) {
-            case MENU: {
-                clearConsole();
-                std::cout << std::endl << menu_str;
-                int new_state;
-                std::cin >> new_state;
-                switch (new_state) {
-                    case 1:
-                        state = FILE_SEL;
-                        break;
-                    case 2:
-                        state = PARAM_SEL;
-                        break;
-                    case 3:
-                        state = RESULT_VIEW;
-                        break;
-                    case 4:
-                        state = CALCULATIONS;
-                        break;
-                    default:
-                        state = QUIT;
-                        break;
-                }
-                break;
-            }
-            case FILE_SEL: {
-                std::cout << file_sel_str << "Insert relative file path: ";
-                std::string file_path;
-                std::cin >> file_path;
-                // TODO: add regex to check if the file is in fact a .json on relative path
-                try {
-                    model.loadModel(file_path);
-                } catch (std::exception& ex) {
-                    std::cout << "Path to invalid file provided." << std::endl;
-                }
-                state = MENU;
-                break;
-            }
-            case PARAM_SEL: {
-                int alpha, beta, gamma;
-                std::cout << param_sel_str << "alpha: ";
-                std::cin >> alpha;
-                std::cout << "beta: ";
-                std::cin >> beta;
-                std::cout << "gamma: ";
-                std::cin >> gamma;
-                model.set_params(alpha, beta, gamma);
-                state = MENU;
-                break;
-            }
-            case RESULT_VIEW: {
-                std::cout << result_view_str;
-                // TODO: display results somehow
-                // TODO: add the option to write stuff to a file
-                std::cout << "Type 1 to write results into a file or any key to go back to menu" << std::endl;
-                std::cout << "Input: ";
-                int flag;
-                std::cin >> flag;
-                if (flag == 1) {
-                    // TODO: write to file
-                }
-                state = MENU;
-                break;
-            }
-            case CALCULATIONS: {
-                std::cout << calculations_str;
-                // TODO: perform optimization
-                auto result = model.tabooSearch(10, 1.0);
-                std::cout << "Taboo search found: " << result.second << " th solution to be the best with score: "
-                    << result.first << std::endl;
-                std::cout << "To quit to menu type -1, to calculate again, type anything else" << std::endl;
-                int flag;
-                std::cin >> flag;
-                if (flag == -1) {
-                    state = MENU;
-                }
-                break;
-            }
-            default:
-                state = QUIT;
-                break;
-        }
+    double a, b, g;
+    std::cout << "[double] alpha: ";
+    std::cin >> a;
+    std::cout << "[double] beta: ";
+    std::cin >> b;
+    std::cout << "[double] gamma: ";
+    std::cin >> g;
+    model.set_params(a, b, g);
+
+    std::cout << std::endl << "Now select neighbourhood selection method" << std::endl;
+    std::cout << neighbourhood_select_menu << "Selection: ";
+    int select;
+    std::cin >> select;
+
+    std::cout << std::endl << "Now select solution selection method" << std::endl;
+    std::cout << ssm_select_menu << "Selection: ";
+    int select2;
+    std::cin >> select2;
+
+    std::cout << "Insert max iterations: ";
+    int iter;
+    std::cin >> iter;
+    std::cout << "Insert cost function cutoff: ";
+    double cutoff;
+    std::cin >> cutoff;
+    int nbrhd_size;
+    std::cout << "Insert neighborhood size: ";
+    std::cin >> nbrhd_size;
+    std::cout << "Data complete" << std::endl;
+
+    NeighborhoodType nbr_type = interpret_nbr_select_type(select);
+    SolutionSelectionMethod ssm_type = interpret_ssm_select_type(select2);
+    std::cout << std::endl << "Calling Taboo Search algorythm..." << std::endl;
+    model.tabooSearch(iter, nbr_type, ssm_type, cutoff, nbrhd_size);
+}
+
+
+NeighborhoodType interpret_nbr_select_type(int select) {
+    NeighborhoodType type;
+    switch (select) {
+        case 1:
+            type = HAM2;
+            break;
+        case 2:
+            type = HAM3;
+            break;
+        case 3:
+            type = HAM4;
+            break;
+        case 4:
+            type = RAND;
+            break;
+        default:
+            type = HAM2;
     }
+    return type;
+}
+
+inline SolutionSelectionMethod interpret_ssm_select_type(int select) {
+    if (select == 2) return RANDOM;
+    else return BEST;
 }

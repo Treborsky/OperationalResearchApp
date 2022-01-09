@@ -14,6 +14,8 @@ FetchContent_MakeAvailable(googletest)
 include_directories(src)
 add_executable(App main.cpp src/model.cpp src/utility.cpp)
 
+target_compile_features(App PUBLIC cxx_std_20)
+
 enable_testing()
 
 add_executable(

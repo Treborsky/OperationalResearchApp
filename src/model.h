@@ -9,18 +9,44 @@
 #ifdef _WIN32
 #define USING_INLINE_FILE
 #endif
+#define USING_INLINE_FILE   // TEMPORARY: pipelines will fail until I figure out a way to artifact the generated .json file
+
+
+enum NeighborhoodType {
+    HAM2 = 2,   // Hamming measure of value 2
+    HAM3 = 3,   // ... 3
+    HAM4 = 4,   // ... 4
+    RAND,   // random generation
+};
+
+enum SolutionSelectionMethod {
+    BEST,
+    RANDOM,
+};
+
 // contains all data and functionality to perform
 // optimization using the Taboo Search algo
 class Model {
 public:
+    explicit Model(const std::string& = "../generated_data.json");
+    std::pair<double, int> tabooSearch(int, NeighborhoodType, SolutionSelectionMethod, double, int);
 
-    void loadModel(const std::string& file_path);
-    double calculateCostFunction(int p_solution) const;
-    std::pair<double, int> tabooSearch(int max_iterations, double asp_coeff);
-
-    void set_params(double a, double b, double g);
+    // setters / getters
+    void set_params(double, double, double);
 private:
-    inline bool determineIsProductExpired(int product_idx) const;
+    // rng
+    std::mt19937 rng;
+    std::uniform_int_distribution<> dist;
+    inline int rnd_idx();
+
+
+    // solution generation - they update m_X, so no const qualifier
+    std::vector<bool> generateInitial();
+    std::vector<bool> generateNew(NeighborhoodType, const std::vector<bool>&);
+    std::vector<std::vector<bool>> generateNewNeighborhood(NeighborhoodType, const std::vector<bool>&, int);
+
+    [[nodiscard]] const double calculateCostFunction(const std::vector<bool>&) const;
+    [[nodiscard]] inline bool determineIsProductExpired(int) const;
 
     int today;
     int money;
@@ -31,12 +57,15 @@ private:
     std::vector<int> m_E;    // Expiration dates for ingredients
     std::vector<int> m_P;    // Prices for ingredients in the shop
 
-    std::vector<Taboo> taboo_list; // contains indices inside a solution vector and a move that is taboo
+    TabooList taboo_list; // contains indices inside a solution vector and a move that is taboo
     std::vector<int> non_taboo;    // has indices of solutions in m_X
-    double best_min;
-    int iteration_limit;
 
+    std::pair<int, double> global_best;
+    int iteration_limit;
     double aspiration_coefficient;
+
+    std::vector<double> best_X_sequence;
+
     int m_n;  // number of recipes
     int m_m;  // number of ingredients
     int m_p;  // size of solution space
