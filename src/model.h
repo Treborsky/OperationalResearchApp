@@ -5,42 +5,63 @@
 #ifndef OPERATIONALRESEARCHAPP_MODEL_H
 #define OPERATIONALRESEARCHAPP_MODEL_H
 
-#include "utility.h"
+#include "utility.h"  // TEMPORARY: pipelines will fail until I figure out a way to artifact the generated .json file
+
+
+enum NeighborhoodType {
+    HAM2 = 2,   // Hamming measure of value 2
+    HAM3 = 3,   // ... 3
+    HAM4 = 4,   // ... 4
+    RAND,   // random generation
+};
+
+enum SolutionSelectionMethod {
+    BEST,
+    RANDOM,
+};
 
 // contains all data and functionality to perform
 // optimization using the Taboo Search algo
 class Model {
 public:
-    void loadModel(const std::string& file_path);
-    [[nodiscard]] double calculateCostFunction(int p_solution) const;
-    std::pair<double, int> tabooSearch(int max_iterations, double asp_coeff);
-    double testCostFunction(int solution_nr);
-    void generateAllBinaryPerm();
+    explicit Model(const std::string& = "../generated_data.json");
+    std::pair<double, int> tabooSearch(int, NeighborhoodType, SolutionSelectionMethod, double, int);
 
-    void set_params(double a, double b, double g);
-    [[nodiscard]] int get_solution_space_size() const;
+    // setters / getters
+    void set_params(double, double, double);
 private:
-    void addNewToTaboo(int old_idx, int new_idx);
-    VectorBool generateSolutionDiff(VectorBool& current, int diff);
-    void solutionPermute(VectorBool current, int n, int i); // TODO: do it smarter
-    void generateRandomSolution();
-    [[nodiscard]] inline bool determineIsProductExpired(int product_idx) const;
+    // rng
+    std::mt19937 rng;
+    std::uniform_int_distribution<> dist;
+    inline int rnd_idx();
+
+
+    // solution generation - they update m_X, so no const qualifier
+    std::vector<bool> generateInitial();
+    std::vector<bool> generateNew(NeighborhoodType, const std::vector<bool>&);
+    std::vector<std::vector<bool>> generateNewNeighborhood(NeighborhoodType, const std::vector<bool>&, int);
+
+    [[nodiscard]] const double calculateCostFunction(const std::vector<bool>&) const;
+    [[nodiscard]] inline bool determineIsProductExpired(int) const;
 
     int today;
     int money;
-    Matrix2 m_R;      // Recipe matrix (row = list of ingredients, row[i] = amount of certain ingredient
-    Matrix2Bool m_X;  // Solution (row = one solution)
-    VectorInt m_T;    // Times of preparation for recipes
-    VectorInt m_Q;    // Amounts of ingredients
-    VectorInt m_E;    // Expiration dates for ingredients
-    VectorInt m_P;    // Prices for ingredients in the shop
+    std::vector<std::vector<int>> m_R;      // Recipe matrix (row = list of ingredients, row[i] = amount of certain ingredient
+    std::vector<std::vector<bool>> m_X;  // Solution (row = one solution)
+    std::vector<int> m_T;    // Times of preparation for recipes
+    std::vector<int> m_Q;    // Amounts of ingredients
+    std::vector<int> m_E;    // Expiration dates for ingredients
+    std::vector<int> m_P;    // Prices for ingredients in the shop
 
-    VectorTaboo taboo_list; // contains indices inside a solution vector and a move that is taboo
-    VectorInt non_taboo;    // has indices of solutions in m_X
-    double best_min;
+    TabooList taboo_list; // contains indices inside a solution vector and a move that is taboo
+    std::vector<int> non_taboo;    // has indices of solutions in m_X
+
+    std::pair<int, double> global_best;
     int iteration_limit;
-
     double aspiration_coefficient;
+
+    std::vector<double> best_X_sequence;
+
     int m_n;  // number of recipes
     int m_m;  // number of ingredients
     int m_p;  // size of solution space

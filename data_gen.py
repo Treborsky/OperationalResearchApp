@@ -39,16 +39,19 @@ def generate_times(n: int):
     l = []
     for i in range(n):
         l.append(random.randint(5, 31))
-    return f'"times": {json.dumps(l)},'
+    return f'"times": {json.dumps(l)}'
 
 
 if __name__ == "__main__":
     random.seed(420)
     n = 20
-    m = 6
+    m = 50
+    money = 1000
+
     json_object = '{' \
                   + f'"n": {n},' \
                   + f'"m": {m},' \
+                  + f'"money": {money},' \
                   + generate_prices(m) \
                   + generate_quantities(m) \
                   + generate_exp_dates(m) \
