@@ -1,5 +1,10 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+"""JSON data generator for https://github.com/Treborsky/OperationalResearchApp project"""
+
 import random
 import json
+import time
 
 quantities = [100, 200, 300, 400, 500]
 
@@ -43,7 +48,7 @@ def generate_times(n: int):
 
 
 if __name__ == "__main__":
-    random.seed(420)
+    random.seed(version=2)
     n = 20
     m = 50
     money = 1000
