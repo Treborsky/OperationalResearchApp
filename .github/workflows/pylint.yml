@@ -7,7 +7,7 @@ on:
     branches: [ release ]
 
 jobs:
-  build:
+  lint:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest ]
@@ -25,4 +25,4 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint --disable=W --disable=C **/*.py
+        pylint --disable=W --disable=C ./data_gen.py
