@@ -37,6 +37,12 @@ void Model::set_params(double a, double b, double g) {
     params = CostFunctionParams(a, b, g);
 }
 
+void Model::set_taboo_age(int s, int m, int l) {
+    taboo_age[0] = s;
+    taboo_age[1] = s;
+    taboo_age[2] = s;
+}
+
 inline bool Model::determineIsProductExpired(int product_idx) const {
     return m_T[product_idx] < today;
 }
@@ -74,10 +80,45 @@ std::pair<double, int> Model::tabooSearch(int max_iterations, NeighborhoodType n
     global_best.second = calculateCostFunction(s);
 
     std::vector<std::vector<bool>> s_nbrhd;
-
+    double s_score = global_best.second;
+    double score = 0.0;
     while (max_iterations--) {
+        std::cout << "iteration nr: " << max_iterations << std::endl;
         // generate neighborhood around current solution
         s_nbrhd = generateNewNeighborhood(nbrhd_type, s, nbrhd_size);
+
+        // search through the neighborhood
+        for (const auto& solution : s_nbrhd) { // get each solution
+            score = calculateCostFunction(solution);
+            if (score > s_score) {
+                best_X_sequence.push_back(score);
+                s_score = score;
+                s = solution;
+            }
+        }
+
+        // search through the taboo list
+        for (const auto& t : taboo_list.list_) { // get each restriction
+            // construct vector from restriction
+            std::vector<bool> t_s = s;
+            t_s[t.first] = (t.second == ZERO_ONE);
+
+            // evaluate
+            score = calculateCostFunction(t_s);
+
+            // check aspiration criterion
+            if (score > global_best.second * aspiration_coefficient) {
+                global_best.second = score;
+                global_best.first = (int) m_X.size();
+                m_X.push_back(t_s);
+            }
+        }
+
+        // update taboo list
+        taboo_list.iterate();
+
+        // check cutoff condition
+        if (global_best.second > cutoff) break;
     }
 
     return global_best;
@@ -90,8 +131,6 @@ std::vector<bool> Model::generateInitial() {
         v.push_back(random_bool());
     }
 
-    m_X.push_back(v);
-
     return v;
 }
 
@@ -101,7 +140,7 @@ std::vector<bool> Model::generateInitial() {
 // @returns x        - new solution
 std::vector<bool> Model::generateNew(NeighborhoodType nbrhd_type, const std::vector<bool>& s) {    // todo: benchmark
     std::vector<bool> x = s;
-    int idx;
+    int idx = rnd_idx();
     switch (nbrhd_type) {
         case HAM2:case HAM3:case HAM4:
             for (int i = 0; i < (int)nbrhd_type; ++i) { // interpret NeighbourHoodType as (int)
@@ -109,7 +148,7 @@ std::vector<bool> Model::generateNew(NeighborhoodType nbrhd_type, const std::vec
                     idx = rnd_idx();
                 }
                 x[idx] = !x[idx];
-                taboo_list.add(idx, x[idx] ? ZERO_ONE : ONE_ZERO);
+                taboo_list.add(idx, x[idx] ? ZERO_ONE : ONE_ZERO, taboo_age[0]);
             }
             break;
         case RAND:
@@ -118,7 +157,7 @@ std::vector<bool> Model::generateNew(NeighborhoodType nbrhd_type, const std::vec
                 if (x[i] != s[i]) { // if a change occurred on ith place in the solution
                     // then we should check if it was taboo
                     if (!taboo_list.contains(i)) {  // if it doesn't, we add it
-                        taboo_list.add(idx, x[idx] ? ZERO_ONE : ONE_ZERO);
+                        taboo_list.add(idx, x[idx] ? ZERO_ONE : ONE_ZERO, taboo_age[0]);
                     } else { // if it does, then we change it back
                         x[i] = !x[i];
                     }
@@ -128,7 +167,7 @@ std::vector<bool> Model::generateNew(NeighborhoodType nbrhd_type, const std::vec
     } // here the solution generation should be already completed
 
     // add x to m_X and return
-    m_X.push_back(x);
+    // m_X.push_back(x);
 
     return x;
 }

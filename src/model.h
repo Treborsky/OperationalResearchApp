@@ -29,6 +29,7 @@ public:
 
     // setters / getters
     void set_params(double, double, double);
+    void set_taboo_age(int, int, int);
 private:
     // rng
     std::mt19937 rng;
@@ -67,6 +68,7 @@ private:
     int m_p;  // size of solution space
 
     CostFunctionParams params;
+    int taboo_age[3];
 };
 
 #endif //OPERATIONALRESEARCHAPP_MODEL_H

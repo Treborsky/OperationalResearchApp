@@ -31,6 +31,16 @@ int main() {
     int select2;
     std::cin >> select2;
 
+    std::cout << std::endl << "Insert taboo memory length: " << std::endl;
+    std::cout << "Short term: ";
+    int s, m, l;
+    std::cin >> s;
+    std::cout << "Medium term: ";
+    std::cin >> m;
+    std::cout << "Long term: ";
+    std::cin >> l;
+    model.set_taboo_age(s, m, l);
+
     std::cout << "Insert max iterations: ";
     int iter;
     std::cin >> iter;
@@ -45,7 +55,8 @@ int main() {
     NeighborhoodType nbr_type = interpret_nbr_select_type(select);
     SolutionSelectionMethod ssm_type = interpret_ssm_select_type(select2);
     std::cout << std::endl << "Calling Taboo Search algorythm..." << std::endl;
-    model.tabooSearch(iter, nbr_type, ssm_type, cutoff, nbrhd_size);
+    std::pair<double, int> ts_result = model.tabooSearch(iter, nbr_type, ssm_type, cutoff, nbrhd_size);
+    std::cout << "Best cost function result: " << ts_result.first << std::endl;
 }
 
 

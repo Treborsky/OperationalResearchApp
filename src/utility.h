@@ -49,17 +49,21 @@ enum Move {
 };
 
 struct TabooList {
-    TabooList() = default;
-    [[nodiscard]] inline bool contains(int idx) const {
-        return std::any_of(list_.begin(), list_.end(), [&](const auto& t){
-            return t.first == idx;
-        });
-    }
-    void add(int idx, Move mv) {
-        list_.insert(std::make_pair(idx, mv));
-    }
+    TabooList() : size(0), full(false) {}
+
+    [[nodiscard]] bool contains(int idx) const;
+    void iterate();
+    void add(int idx, Move mv, int memory_len);
+    void remove(int idx);
     bool operator[] (int idx) { return list_[idx] == ZERO_ONE; } // returns true if a 1 one is under idx
+
+    // TODO: implement iterators for faster looping trough taboo list
+
     std::map<int, Move> list_;
+    std::map<int, int> age_;
+
+    int size;
+    bool full;
 };
 
 

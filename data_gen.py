@@ -49,7 +49,7 @@ def generate_times(n: int):
 
 if __name__ == "__main__":
     random.seed(version=2)
-    n = 20
+    n = 50
     m = 50
     money = 1000
 
